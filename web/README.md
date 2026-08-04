@@ -1,56 +1,74 @@
 # Stacks Project — Dark Mode
 
-完整的深色模式解决方案，适用于 Stacks Project 网站。
+A dark mode theme for The Stacks Project website.
 
-## 文件说明
+## Files
 
-| 文件 | 用途 |
-|------|------|
-| `dark-mode.css` | 深色模式样式表。所有规则以 `.dark` class 为作用域，在 `<html>` 上添加 class 即可激活。 |
-| `dark-mode.js` | 自动在导航栏添加 🌙/☀️ 切换按钮，持久化 localStorage，默认跟随系统偏好。 |
+| File | Purpose |
+|------|---------|
+| `dark-mode.css` | Complete dark mode stylesheet. All rules are scoped under `.dark` class — add `class="dark"` to `<html>` to activate. |
+| `dark-mode.js` | Adds a 🌙/☀️ toggle button to the navigation bar, persists preference in localStorage, defaults to system `prefers-color-scheme`. |
 
-## 部署方式
+## Integration
 
-在网站模板的 `<head>` 中引入 CSS，`</body>` 之前引入 JS：
+Add to the website template:
 
 ```html
-<!-- 引入深色模式样式（放在主 style.css 之后） -->
+<!-- Dark mode stylesheet (after main style.css) -->
 <link rel="stylesheet" type="text/css" href="/static/css/dark-mode.css">
 
-<!-- 引入深色模式 JS -->
+<!-- Dark mode toggle script -->
 <script type="text/javascript" src="/static/js/dark-mode.js"></script>
 ```
 
-### 实际路径取决于你的设置
+### Server-side deployment
 
-如果部署在 Stacks Project 网站上：
-1. 将 `dark-mode.css` 复制到 `web/static/css/` 目录
-2. 将 `dark-mode.js` 复制到 `web/static/js/` 目录
-3. 在 `plastex` 模板的 `<head>` 中添加 CSS 引用
-4. 在 `</body>` 之前添加 JS 引用
+1. Copy `dark-mode.css` → `web/static/css/dark-mode.css`
+2. Copy `dark-mode.js` → `web/static/js/dark-mode.js`
+3. Add the CSS link in `<head>` of the plastex HTML template
+4. Add the JS script reference before `</body>`
 
-### 仅本地测试
+### Quick test (browser console)
 
-直接在当前页面打开浏览器控制台，执行：
+Open any Stacks Project page and paste:
 
 ```js
-// 注入 CSS
-var link = document.createElement('link');
-link.rel = 'stylesheet';
-link.type = 'text/css';
-link.href = '/static/css/dark-mode.css';
-document.head.appendChild(link);
-
-// 注入 JS
-var script = document.createElement('script');
-script.src = '/static/js/dark-mode.js';
-document.body.appendChild(script);
+var s = document.createElement('script');
+s.src = '/static/js/dark-mode.js';
+document.body.appendChild(s);
+var l = document.createElement('link');
+l.rel = 'stylesheet';
+l.href = '/static/css/dark-mode.css';
+document.head.appendChild(l);
 ```
 
-## 效果预览
+### Bookmarklet (no server integration needed)
 
-- 所有页面（内容页、搜索、目录、索引、评论区）统一深色
-- 切换按钮位于右上角导航栏（bibliography / blog 旁边）
-- 深色状态跨页面保持（localStorage）
-- 首次访问自动跟随系统深色模式偏好
-- MathJax 公式保持可读性
+Drag this to your bookmarks bar:
+
+```
+javascript:(function(){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/gh/kanghelyu/kanghelyu.github.io@main/stacks-dark/dark-mode.js';document.body.appendChild(s);var l=document.createElement('link');l.rel='stylesheet';l.href='https://cdn.jsdelivr.net/gh/kanghelyu/kanghelyu.github.io@main/stacks-dark/dark-mode.css';document.head.appendChild(l)})();
+```
+
+Click the bookmark on any Stacks Project page to toggle dark mode.
+
+## Features
+
+- All page types: content, search, tags, browse, table of contents, index, bibliography, comments
+- Toggle button in the top-right navbar (next to bibliography / blog links)
+- State persists across pages via localStorage
+- Respects system `prefers-color-scheme: dark` on first visit
+- Keyboard shortcut: `Ctrl/Cmd + Shift + D`
+- MathJax formulas stay readable
+- BootstrapToggle component also themed
+
+## Color Palette
+
+Dark mode uses a blueish-navy palette designed for comfortable long-form reading:
+
+- Page background: `#1a1a2e`
+- Navigation bars: `#16213e` / `#0f3460`
+- Text: `#e0e0e0`
+- Links: `#63b3ed`
+- Cards / containers: `#1e2a45`
+- Borders: `#2d3748`
